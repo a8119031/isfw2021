@@ -10,21 +10,37 @@
     <script type="text/javascript" src="osql.js"></script>
 
     <script>
+        var tweet;
+
         function button1Pressed() {
-            execSelect();
+            execSelect1();
         }
 
-        async function execSelect() {
+        async function execSelect1() {
+            var userid = document.getElementById('tf1').value;
+            var tweet = document.getElementById('tf2').value;
+
+            var sql = 'insert into Tweets (name, tweet, time) values("%USERID%", "%TWEET%", now());';
+            sql = sql.replace("%USERID%", userid);
+            sql = sql.replace("%TWEET%", tweet);
+            console.log(sql);
+            var objects = await osql.connect(sql);
+            console.log(objects);
+        }
+
+        function button2Pressed() {
+            tweet = setInterval(execSelect2, 2000);
+        }
+
+        async function execSelect2() {
             var sql = 'select * from Tweets order by time desc limit 20';
             var objects = await osql.connect(sql);
             console.log(objects);
-            var html = '';
-            html = html + '<ul>';
+            var html = '<th>' + 'name' + '</th>' + '<th>' + 'tweet' + '</th>' + '<th>' + 'time' + '</th>';
             for (var i = 0; i < objects.length; i++) {
                 var object = objects[i];
-                html = html + '<li>' + object.tweet + '</li>';
+                html = html + '<tr><td>' + object.name + '</td><td>' + object.tweet + '</td><td>' + object.time + '</td></tr>';
             }
-            html = html + '</ul>';
             document.getElementById('result').innerHTML = html;
         }
     </script>
@@ -32,10 +48,17 @@
 </head>
 
 <body>
-    <h1>Tweets</h1>
-    <button onclick="button1Pressed()">X</button>
+    <h1>Tweets Version2</h1>
+    <br>
+    ログイン名:<input id="tf1" value="名無し" type="textfield">
+    <br>
+    tweet:<input id="tf2" type="textfield">
+    <button onclick="button1Pressed()">tweet</button>
+    <br>
+    <button onclick="button2Pressed()">X</button>
     <hr>
-    <p id="result">xxxx</p>
+    <table border="1" id="result">
+    </table>
 </body>
 
 </html>
