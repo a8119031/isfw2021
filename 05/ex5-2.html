@@ -11,9 +11,9 @@
 
     <script>
 
-        function button1Pressed() {
+        $().ready(function () {
             doSelect();
-        }
+        });
 
         async function doSelect() {
             var sql = 'select * from Tweets order by time desc limit 20';
@@ -48,7 +48,6 @@
 
 <body>
     <h1>Tweets</h1>
-    <button onclick="button1Pressed()">ツイート表示</button>
     <br>
     名前:<input id="tf1" value="名無し" type="textfield">
     <br>
