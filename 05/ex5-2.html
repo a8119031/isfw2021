@@ -10,7 +10,24 @@
     <script type="text/javascript" src="../osql.js"></script>
 
     <script>
+
         function button1Pressed() {
+            doSelect();
+        }
+
+        async function doSelect() {
+            var sql = 'select * from Tweets order by time desc limit 20';
+            var objects = await osql.connect(sql);
+            console.log(objects);
+            var html = '';
+            for (var i = 0; i < objects.length; i++) {
+                var object = objects[i];
+                html = html + '<tr><td>' + object.id + '</td><td>' + object.name + '</td><td>' + object.tweet + '</td><td>' + object.time + '</td></tr>';
+            }
+            document.getElementById('result1').innerHTML = html;
+        }
+
+        function button2Pressed() {
             doInsert();
             document.getElementById('tf2').value = '';
         }
@@ -23,7 +40,7 @@
             var objects = await osql.connect(sql);
             console.log(objects);
              
-            document.getElementById('result').innerHTML = "tweetしました";
+            document.getElementById('result2').innerHTML = "tweetしました";
         }
     </script>
 
@@ -31,13 +48,14 @@
 
 <body>
     <h1>Tweets</h1>
+    <button onclick="button1Pressed()">ツイート表示</button>
     <br>
     名前:<input id="tf1" value="名無し" type="textfield">
     <br>
     tweet:<input id="tf2" type="textfield">
-    <button onclick="button1Pressed()">tweet</button>
-    <br>
-    <p id="result"></p>
+    <button onclick="button2Pressed()">tweet</button>
+    <p id = 'result2'></p>
+    <table border="1" id="result1"></table>
 </body>
 
 </html>
