@@ -15,16 +15,14 @@
         }
 
         async function doSelect() {
-            var sql = 'select * from Tweets order by time desc';
+            var sql = 'select * from Tweets order by time desc limit 20';
             var objects = await osql.connect(sql);
             console.log(objects);
             var html = '';
-            html = html + '<ul>';
             for (var i = 0; i < objects.length; i++) {
                 var object = objects[i];
-                html = html + '<li>' + object.id + ', ' + object.name + ', ' + object.tweet + ', ' + object.time + '</li>';
+                html = html + '<tr><td>' + object.id + '</td><td>' + object.name + '</td><td>' + object.tweet + '</td><td>' + object.time + '</td></tr>';
             }
-            html = html + '</ul>';
             document.getElementById('result').innerHTML = html;
         }
 
@@ -34,12 +32,10 @@
             var objects = await osql.connect(sql);
             console.log(objects);
             var html = '';
-            html = html + '<ul>';
             for (var i = 0; i < objects.length; i++) {
                 var object = objects[i];
-                html = html + '<li>' + object.id + ', ' + object.name + ', ' + object.tweet + ', ' + object.time + '</li>';
+                html = html + '<tr><td>' + object.id + '</td><td>' + object.name + '</td><td>' + object.tweet + '</td><td>' + object.time + '</td></tr>';;
             }
-            html = html + '</ul>';
             document.getElementById('result').innerHTML = html;
         }
     </script>
@@ -51,7 +47,7 @@
     <button onclick="button1Pressed()">X</button>
     <input id = "search" type = "text"><button onclick="button2Pressed()">検索</button>
     <hr>
-    <p id="result">xxxx</p>
+    <table border="1" id="result">
 </body>
 
 </html>
