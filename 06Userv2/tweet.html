@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <script type="text/javascript" src="../jquery.min.js"></script>
+    <script type="text/javascript" src="../settings.js"></script>
+    <script type="text/javascript" src="../osql.js"></script>
+
+    <script>
+
+        $().ready(function () {
+            doSelect();
+            tweetUpdate();
+            autoInsert()
+        });
+
+        function tweetUpdate() {
+            setInterval(doSelect, 2000);
+        }
+
+        async function doSelect() {
+            var sql = 'select * from Tweets order by time desc limit 20';
+            var objects = await osql.connect(sql);
+            console.log(objects);
+            var html = '';
+            for (var i = 0; i < objects.length; i++) {
+                var object = objects[i];
+                html = html + '<tr><td>' + object.id + '</td><td>' + object.name + '</td><td>' + object.tweet + '</td><td>' + object.time + '</td></tr>';
+            }
+            document.getElementById('result1').innerHTML = html;
+        }
+
+        function button2Pressed() {
+            doInsert();
+            document.getElementById('tf2').value = '';
+        }
+
+        async function doInsert() {
+            var userid = sessionStorage.getItem('userid');
+
+            var tweet = document.getElementById('tf2').value;
+            var sql = `insert into Tweets (name, tweet, time) values("${userid}", "${tweet}", now());`;
+            var objects = await osql.connect(sql);
+            console.log(objects);
+
+            document.getElementById('result2').innerHTML = "tweetしました";
+        }
+
+        function autoInsert() {
+            var userid = sessionStorage.getItem('userid');
+            document.getElementById('tf1').value = userid;
+        }
+
+
+
+    </script>
+
+</head>
+
+<body>
+    <h1>Tweets</h1>
+    <br>
+    名前:<input id="tf1" type="textfield">
+    <br>
+    tweet:<input id="tf2" type="textfield">
+    <button onclick="button2Pressed()">tweet</button>
+    <p id='result2'></p>
+    <table border="1" id="result1"></table>
+</body>
+
+</html>
