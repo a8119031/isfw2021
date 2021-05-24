@@ -1,28 +1,20 @@
 <!DOCTYPE html>
-
 <html>
-
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
     <script type="text/javascript" src="../jquery.min.js"></script>
     <script type="text/javascript" src="../settings.js"></script>
     <script type="text/javascript" src="../osql.js"></script>
-
     <script>
-
         $(document).ready(function () {
             execSelect();
         });
 
-        async function buttonFollows(userid) {
-            var sql = 'select * from Users';
+        async function buttonPressed(userid){
+            var sql = `delete from Users where id = "${userid}"`
+            var sql = `delete from Users where id = "${userid}"`;
             var objects = await osql.connect(sql);
             console.log(objects);
-            var status = document.getElementById(`'${userid}'`).value;
-            if (status == 'フォローする') {
-                document.getElementById(`'${userid}'`).value = '　フォロー中';
-            }
         }
         async function execSelect() {
             var sql = 'select * from Users';
@@ -35,19 +27,17 @@
                 var object = objects[i];
                 html = html + '<td>' + object.id + '</td>';
                 html = html + '<td>' + object.name + '</td>';
-                html = html + '<td>' + '<input type = "button" id = ' + `"${object.id}"` + ` value = "フォローする" onclick = "buttonFollows(${object.id})" ></input>` + '</td>';
-                html = html + '</tr>'
+                html = html + '<td>' + '<a href="update.html?userid=' + object.id + '">変更</a>' + '</td>';
+                html = html + '<td>' + `<button onclick = "buttonPressed('${object.id}')">削除</button>` + '</td>';
+                html = html + '</tr>';
             }
             html = html + '</table>';
             document.getElementById('result').innerHTML = html;
         }
     </script>
-
 </head>
-
 <body>
     <h1>Users</h1>
     <p id="result">xxxx</p>
 </body>
-
 </html>
