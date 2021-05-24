@@ -19,9 +19,14 @@
             var sql = 'select * from Users';
             var objects = await osql.connect(sql);
             console.log(objects);
-            var status = document.getElementById(`'${userid}'`).value;
+            var status = document.getElementById(`${userid}`).innerHTML;
             if (status == 'フォローする') {
-                document.getElementById(`'${userid}'`).value = '　フォロー中';
+                document.getElementById(`${userid}`).innerHTML = 'フォロー中　';
+                document.getElementById(`${userid}`).style = "background:#afeeee"
+            }
+            if (status == 'フォロー中　') {
+                document.getElementById(`${userid}`).innerHTML = 'フォローする';
+                document.getElementById(`${userid}`).style = "";
             }
         }
         async function execSelect() {
@@ -35,7 +40,7 @@
                 var object = objects[i];
                 html = html + '<td>' + object.id + '</td>';
                 html = html + '<td>' + object.name + '</td>';
-                html = html + '<td>' + '<input type = "button" id = ' + `"${object.id}"` + ` value = "フォローする" onclick = "buttonFollows(${object.id})" ></input>` + '</td>';
+                html = html + '<td>' + `<button id = "${object.id}" onclick = "buttonFollows('${object.id}')" >フォローする</button>` + '</td>';
                 html = html + '</tr>'
             }
             html = html + '</table>';
@@ -47,7 +52,7 @@
 
 <body>
     <h1>Users</h1>
-    <p id="result">xxxx</p>
+    <p id="result"></p>
 </body>
 
 </html>
