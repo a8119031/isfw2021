@@ -14,11 +14,11 @@
             selectName();
         });
 
-        function selectName(){
+        function selectName() {
             var name = sessionStorage.getItem('username');
             document.getElementById('welcome').innerHTML = 'ようこそ' + name + 'さん';
             var userid = sessionStorage.getItem('userid');
-            document.getElementById("userchange").innerHTML =  `<a href="update.html?userid=${userid}">ユーザ情報変更</a>`;
+            document.getElementById("userchange").innerHTML = `<a href="update.html?userid=${userid}">ユーザ情報変更</a>`;
         }
 
     </script>
@@ -29,8 +29,9 @@
     <h1>ユーザトップ</h1>
     <p id="welcome"></p>
     <hr>
-    <p id = userchange></p>
-    <a href="tweet.html">ツイートへ</a>
+    <p id=userchange></p>
+    <a href="tweet.html">ツイートする</a><br>
+    <a href="follow.html">フォローする</a>
 
 </body>
 

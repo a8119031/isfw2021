@@ -15,20 +15,28 @@
             execSelect();
         });
 
-        async function buttonFollows(userid) {
+        async function buttonFollows(otherUserid) {
             var sql = 'select * from Users';
             var objects = await osql.connect(sql);
             console.log(objects);
-            var status = document.getElementById(`${userid}`).innerHTML;
+            var status = document.getElementById(`${otherUserid}`).innerHTML;
+            var thisuser = sessionStorage.getItem('userid');
             if (status == 'フォローする') {
-                document.getElementById(`${userid}`).innerHTML = 'フォロー中　';
-                document.getElementById(`${userid}`).style = "background:#afeeee"
+                document.getElementById(`${otherUserid}`).innerHTML = 'フォロー中　';
+                document.getElementById(`${otherUserid}`).style = "background:#afeeee";
+                sql = `insert into Follows(fromid, toid) values('${thisuser}', '${otherUserid}')`;
+                objects = await osql.connect(sql);
+                console.log(objects);
             }
             if (status == 'フォロー中　') {
-                document.getElementById(`${userid}`).innerHTML = 'フォローする';
-                document.getElementById(`${userid}`).style = "";
+                document.getElementById(`${otherUserid}`).innerHTML = 'フォロー中　';
+                document.getElementById(`${otherUserid}`).style = "";
+                sql = `delete from Follows where fromid = '${thisuser}' and toid = '${otherUserid}'`;
+                objects = await osql.connect(sql);
+                console.log(objects);
             }
         }
+
         async function execSelect() {
             var sql = 'select * from Users';
             var objects = await osql.connect(sql);
