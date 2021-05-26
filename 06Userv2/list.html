@@ -12,10 +12,16 @@
         });
 
         async function buttonPressed(userid) {
-            var sql = `delete from Users where id = "${userid}"`;
-            var objects = await osql.connect(sql);
-            console.log(objects);
+            var ans = window.confirm('本当にいいんですね？');
+            if (ans == true) {
+                var sql = `delete from Users where id = "${userid}"`;
+                var objects = await osql.connect(sql);
+                console.log(objects);
+                execSelect();
+            }
+
         }
+
         async function execSelect() {
             var sql = 'select * from Users';
             var objects = await osql.connect(sql);
