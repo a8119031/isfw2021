@@ -29,7 +29,7 @@
                 console.log(objects);
             }
             if (status == 'フォロー中　') {
-                document.getElementById(`${otherUserid}`).innerHTML = 'フォロー中　';
+                document.getElementById(`${otherUserid}`).innerHTML = 'フォローする';
                 document.getElementById(`${otherUserid}`).style = "";
                 sql = `delete from Follows where fromid = '${thisuser}' and toid = '${otherUserid}'`;
                 objects = await osql.connect(sql);
